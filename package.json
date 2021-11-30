@@ -1,0 +1,19 @@
+{
+  "name": "WebdriverIO_Demo_Task",
+  "version": "1.0.0",
+  "description": "aqa trainee qualification task",
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {},
+  "devDependencies": {
+    "@wdio/cli": "^7.16.10",
+    "@wdio/local-runner": "^7.16.10",
+    "@wdio/mocha-framework": "^7.16.6",
+    "@wdio/selenium-standalone-service": "^7.16.6",
+    "@wdio/spec-reporter": "^7.16.9"
+  },
+  "scripts": {
+    "example": "npx wdio run ./wdio.conf.cjs --spec example.e2e.js"
+  }
+}
