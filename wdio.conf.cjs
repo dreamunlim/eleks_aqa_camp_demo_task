@@ -23,6 +23,17 @@ exports.config = {
     specs: [
         './test/specs/**/*.js'
     ],
+    // define specific suites
+    suites: {
+        hw_14: [
+            './test/specs/positiveCaseLogin.js',
+            './test/specs/negativeCaseLogin.js',
+            './test/specs/openSocialMediaPages.js'
+        ],
+        hw_15: [
+            // ...
+        ]
+    },
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
@@ -49,7 +60,8 @@ exports.config = {
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
     // https://saucelabs.com/platform/platform-configurator
     //
-    capabilities: [{
+    capabilities: [
+    {
     
         // maxInstances can get overwritten per capability. So if you have an in-house Selenium
         // grid with only 5 firefox instances available you can make sure that not more than
@@ -63,11 +75,12 @@ exports.config = {
         // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
         // excludeDriverLogs: ['bugreport', 'server'],
     },
-    {
-        maxInstances: 5,
-        browserName: 'firefox',
-        acceptInsecureCerts: true
-    }],
+    // {
+    //     maxInstances: 5,
+    //     browserName: 'firefox',
+    //     acceptInsecureCerts: true
+    // }
+    ],
     //
     // ===================
     // Test Configurations
@@ -99,7 +112,7 @@ exports.config = {
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
     // gets prepended directly.
-    baseUrl: 'https://the-internet.herokuapp.com',
+    baseUrl: 'http://localhost:3000',
     //
     // Default timeout for all waitFor* commands.
     waitforTimeout: 10000,
