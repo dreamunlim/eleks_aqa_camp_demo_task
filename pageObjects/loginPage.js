@@ -1,4 +1,6 @@
 import BasePage from "./basePage.js";
+import Button from "../elementObjects/button.js";
+import Input from "../elementObjects/input.js";
 
 class LoginPage extends BasePage {
     constructor() {
@@ -11,12 +13,17 @@ class LoginPage extends BasePage {
         this.fakeMail = 'fake@mail.com';
         this.fakePassword = 'fakePassword';
 
-        this.userNameSelector = 'div input[name="email"]';
-        this.passwordSelector = 'div input[name="password"]';
+        this.emailFieldSelector = 'div input[name="email"]';
+        this.passwordFieldSelector = 'div input[name="password"]';
         this.submitBtnSelector = 'button#loginButton';
         this.errorMsgSelector = 'div.error';
+        this.loginFormSelector = 'div.login-form';
 
         this.loginErrorText = 'Invalid email or password.';
+    }
+
+    getBaseElement() {
+        return $(this.loginFormSelector);
     }
 
     async openPage() {
@@ -24,15 +31,15 @@ class LoginPage extends BasePage {
     }
 
     getEmailField() {
-        return $(this.userNameSelector);
+        return new Input($(this.emailFieldSelector), "Email field");
     }
 
     getPasswordField() {
-        return $(this.passwordSelector);
+        return new Input($(this.passwordFieldSelector), "Password field");
     }
 
     getSubmitButton() {
-        return $(this.submitBtnSelector);
+        return new Button($(this.submitBtnSelector), "Submit button");
     }
 
     getErrorMsg() {

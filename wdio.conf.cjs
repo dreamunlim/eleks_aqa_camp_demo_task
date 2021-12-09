@@ -31,6 +31,9 @@ exports.config = {
             './test/specs/openSocialMediaPages.js'
         ],
         hw_15: [
+            './test/specs/positiveCaseUserRegistration.js'
+        ],
+        hw_16: [
             // ...
         ]
     },
