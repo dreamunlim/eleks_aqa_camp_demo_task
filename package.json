@@ -11,10 +11,12 @@
     "@wdio/local-runner": "^7.16.10",
     "@wdio/mocha-framework": "^7.16.6",
     "@wdio/selenium-standalone-service": "^7.16.6",
-    "@wdio/spec-reporter": "^7.16.9"
+    "@wdio/spec-reporter": "^7.16.9",
+    "randomstring": "^1.2.1"
   },
   "scripts": {
     "example": "npx wdio run ./wdio.conf.cjs --spec example.e2e.js",
-    "hw_14": "npx wdio run ./wdio.conf.cjs --suite hw_14"
+    "hw_14": "npx wdio run ./wdio.conf.cjs --suite hw_14",
+    "hw_15": "npx wdio run ./wdio.conf.cjs --suite hw_15"
   }
 }

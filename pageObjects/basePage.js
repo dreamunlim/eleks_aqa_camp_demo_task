@@ -1,3 +1,5 @@
+import Button from "../elementObjects/button.js";
+
 class BasePage {
     constructor() {
         this.url = null;
@@ -9,21 +11,46 @@ class BasePage {
     async openPage(url) {
         await browser.maximizeWindow();
         await browser.url(url);
-        await this.closeWelcomePopup();
-        await this.closeCookiesPopup();
+        await this.waitForPageAvailable();
+
+        const welcomePopupElement = new Button($(this.welcomePopupSelector), "Welcome Popup close button");
+        const cookiesPopupElement = new Button($(this.cookiesPopupSelector), "Cookies Popup close button");
+
+        if(await welcomePopupElement.isExisting()) {
+            await this.closeWelcomePopup(welcomePopupElement);
+        }
+
+        if(await cookiesPopupElement.isExisting()) {
+            await this.closeCookiesPopup(cookiesPopupElement);
+        }
     }
 
-    async closeWelcomePopup() {
-        let element = await $(this.welcomePopupSelector);
-        let overlayedSpan = await element.$('span.mat-button-focus-overlay');
+    // assume from the element presence that the page has loaded
+    async waitForPageAvailable() {
+        const timeout = 5000;
+        const timeoutMsg = `The page element has not loaded in ${timeout / 1000} sec`;
+        const interval = 1000;
+
+        await browser.waitUntil(
+            async () => { return !!this.getBaseElement().length }, // cast length to boolean
+            {
+                timeout: timeout,
+                timeoutMsg: timeoutMsg,
+                interval: interval
+            }
+        );
+    }
+
+    async closeWelcomePopup(welcomePopupElement) {
+        let overlayedSpanSelector = 'span.mat-button-focus-overlay';
+        let overlayedSpan = await welcomePopupElement.itself().$(overlayedSpanSelector);
         await browser.execute((span) => {
             span.click();            
         }, overlayedSpan);
     }
 
-    async closeCookiesPopup() {
-        let element = await $(this.cookiesPopupSelector);
-        await element.click();
+    async closeCookiesPopup(cookiesPopupElement) {
+        await cookiesPopupElement.click();
     }
 }
 

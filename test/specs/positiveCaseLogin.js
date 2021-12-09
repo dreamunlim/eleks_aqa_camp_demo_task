@@ -1,5 +1,5 @@
 import loginPage from '../../pageObjects/loginPage.js';
-import userLoggedInMenuBar from '../../pageObjects/userLoggedInMenuBar.js'
+import userLoggedInMenuBar from '../../pageObjects/userLoggedInMenuBar.js';
 
 describe('LoginPage login', () => {
     it('positive login', async () => {

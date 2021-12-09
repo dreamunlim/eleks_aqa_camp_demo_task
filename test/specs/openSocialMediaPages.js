@@ -21,7 +21,7 @@ describe('Open social media pages', () => {
                 const urlFilter = /(?:https?)(?::\/\/)(?:[\w-]+\.)+(?:[\w-.]+\/?)+[^/]/i;
                 const filteredTargetWindowUrl = await targetWindowUrl.match(urlFilter)[0];
                 const targetWindowSelector = await aboutUsPage.socialPagesValidationSelectors[filteredTargetWindowUrl];
-                const targetWindowElement = $(targetWindowSelector);
+                const targetWindowElement = await $(targetWindowSelector);
 
                 // console.log("Filtered Url: ", filteredTargetWindowUrl);
                 // console.log("Selector: ", targetWindowSelector);

@@ -6,7 +6,8 @@ class AboutUsPage extends BasePage {
 
         this.url = '/#/about';
 
-        this.socialLinksSelector = 'div.social a';
+        this.socialLinksElement = 'div.social';
+        this.socialLinksSelector = 'div.social button';
 
         this.socialPagesValidationSelectors = {
             "https://twitter.com/owasp_juiceshop": '//div//span[contains(text(),"OWASP Juice Shop")]',
@@ -15,6 +16,10 @@ class AboutUsPage extends BasePage {
             "https://www.reddit.com/r/owasp_juiceshop": '//div/h1[text()="owasp_juiceshop"]',
             "https://github.com/OWASP/owasp-swag/tree/master/projects/juice-shop": '//strong/a[@href="/OWASP/owasp-swag"]'
         }
+    }
+
+    getBaseElement() {
+        return $(this.socialLinksElement);
     }
 
     async openPage() {
