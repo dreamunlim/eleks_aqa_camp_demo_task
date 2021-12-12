@@ -21,6 +21,7 @@ class UserLoggedInMenuBar extends BasePage {
     }
 
     async getLogoutButton() {
+        await allure.addStep(`Retrieving Logout button`);
         await this.openAccountPopupMenu();
         return new Button($(this.logoutButtonSelector), "Logout button");
     }

@@ -1,3 +1,5 @@
+const allureReporter = require('@wdio/allure-reporter').default;
+
 exports.config = {
     //
     // ====================
@@ -34,7 +36,12 @@ exports.config = {
             './test/specs/positiveCaseUserRegistration.js'
         ],
         hw_16: [
-            // ...
+            [
+                './test/specs/positiveCaseUserRegistration.js',
+                './test/specs/positiveCaseLogin.js'
+            ],
+            './test/specs/negativeCaseLogin.js',
+            './test/specs/openSocialMediaPages.js'
         ]
     },
     // Patterns to exclude.
@@ -153,7 +160,11 @@ exports.config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    reporters: ['spec'],
+    reporters: ['spec', ['allure', {
+        outputDir: 'allure-results',
+        disableWebdriverStepsReporting: true,
+        disableWebdriverScreenshotsReporting: true,
+    }]],
 
 
     
@@ -198,8 +209,9 @@ exports.config = {
      * @param {Array.<String>} specs List of spec file paths that are to be run
      * @param {String} cid worker id (e.g. 0-0)
      */
-    // beforeSession: function (config, capabilities, specs, cid) {
-    // },
+    beforeSession: function (config, capabilities, specs, cid) {
+        global.allure = allureReporter;
+    },
     /**
      * Gets executed before test execution begins. At this point you can access to all global
      * variables like `browser`. It is the perfect place to define custom commands.
@@ -252,8 +264,12 @@ exports.config = {
      * @param {Boolean} result.passed    true if test has passed, otherwise false
      * @param {Object}  result.retries   informations to spec related retries, e.g. `{ attempts: 0, limit: 0 }`
      */
-    // afterTest: function(test, context, { error, result, duration, passed, retries }) {
-    // },
+    afterTest: async function (test, context, { error, result, duration, passed, retries }) {
+        if (error) {
+            const screen = await browser.takeScreenshot();
+            await allure.addAttachment("FailedTestScreenshot", Buffer.from(screen, "base64"), "image/png");
+        }
+    },
 
 
     /**
