@@ -4,24 +4,25 @@ class BasePage {
     constructor() {
         this.url = null;
 
-        this.welcomePopupSelector = 'button.close-dialog';
-        this.cookiesPopupSelector = 'a[aria-label="dismiss cookie message"]';
+        this.welcomePopupButtonSelector = 'button.close-dialog';
+        this.cookiesPopupButtonSelector = 'a[aria-label="dismiss cookie message"]';
     }
 
-    async openPage(url) {
+    async openPage(url = this.url) {
+        await allure.addStep(`Opening URL: ${browser.config.baseUrl + url}`);
         await browser.maximizeWindow();
         await browser.url(url);
         await this.waitForPageAvailable();
 
-        const welcomePopupElement = new Button($(this.welcomePopupSelector), "Welcome Popup close button");
-        const cookiesPopupElement = new Button($(this.cookiesPopupSelector), "Cookies Popup close button");
+        const welcomePopupButton = new Button($(this.welcomePopupButtonSelector), "Welcome Popup close button");
+        const cookiesPopupButton = new Button($(this.cookiesPopupButtonSelector), "Cookies Popup close button");
 
-        if(await welcomePopupElement.isExisting()) {
-            await this.closeWelcomePopup(welcomePopupElement);
+        if(await welcomePopupButton.isDisplayed()) {
+            await this.closeWelcomePopup(welcomePopupButton);
         }
 
-        if(await cookiesPopupElement.isExisting()) {
-            await this.closeCookiesPopup(cookiesPopupElement);
+        if(await cookiesPopupButton.isDisplayed()) {
+            await this.closeCookiesPopup(cookiesPopupButton);
         }
     }
 
@@ -41,16 +42,18 @@ class BasePage {
         );
     }
 
-    async closeWelcomePopup(welcomePopupElement) {
+    async closeWelcomePopup(welcomePopupButton) {
+        await allure.addStep(`Closing Welcome Popup`);
         let overlayedSpanSelector = 'span.mat-button-focus-overlay';
-        let overlayedSpan = await welcomePopupElement.itself().$(overlayedSpanSelector);
+        let overlayedSpan = await welcomePopupButton.itself().$(overlayedSpanSelector);
         await browser.execute((span) => {
             span.click();            
         }, overlayedSpan);
     }
 
-    async closeCookiesPopup(cookiesPopupElement) {
-        await cookiesPopupElement.click();
+    async closeCookiesPopup(cookiesPopupButton) {
+        await allure.addStep(`Closing Cookies Popup`);
+        await cookiesPopupButton.click();
     }
 }
 

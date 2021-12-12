@@ -2,6 +2,7 @@ import Input from "../elementObjects/input.js";
 import Button from "../elementObjects/button.js";
 import Dropdown from "../elementObjects/dropdown.js";
 import BasePage from "./basePage.js";
+import loginPage from "./loginPage.js";
 import randomstring from "randomstring";
 
 class RegistrationPage extends BasePage {
@@ -9,6 +10,7 @@ class RegistrationPage extends BasePage {
         super();
 
         this.url = '#/register';
+        this.postRegistrationUrl = browser.config.baseUrl + loginPage.url;
 
         this.strLength = 5;
         this.email = randomstring.generate({ length: this.strLength, charset: 'alphabetic' }) + "@mail.com";
@@ -32,7 +34,27 @@ class RegistrationPage extends BasePage {
     }
 
     async openPage() {
-        await super.openPage(this.url);
+        await super.openPage();
+        await this.cacheDataToLocalStorage();
+    }
+
+    async cacheDataToLocalStorage() {
+        const dataToCache = {
+            email: this.email,
+            password: this.password
+        }
+
+        await browser.execute((data) => {
+            if (localStorage) {
+                const key = "regData";
+                const regData = {
+                    email: data.email,
+                    password: data.password
+                }
+                
+                localStorage.setItem(key, JSON.stringify(regData));
+            }
+        }, dataToCache);
     }
 
     getEmailField() {
@@ -67,6 +89,16 @@ class RegistrationPage extends BasePage {
         let dropdownAnswer = await $(dropdownAnswerSelector);
         await this.openDropdown();
         await this.getDropdownField().select(dropdownAnswer);
+    }
+
+    async register(email = this.email, password = this.password) {
+        await allure.addStep(`Registering with: '${email}' / '${password}'`);
+        await this.getEmailField().setValue(this.email);
+        await this.getPasswordField().setValue(this.password);
+        await this.getRepeatPasswordField().setValue(this.password);
+        await this.selectDropdownAnswer(this.dropdownAnswerSelector);
+        await this.getAnswerField().setValue(this.securityQuestionAnswer);
+        await this.getRegisterButton().click();
     }
 }
 

@@ -27,7 +27,24 @@ class LoginPage extends BasePage {
     }
 
     async openPage() {
-        await super.openPage(this.url);
+        await super.openPage();
+        await this.loadDataFromLocalStorage();
+    }
+
+    async loadDataFromLocalStorage() {
+        const cachedData = await browser.execute(async () => {
+            const key = "regData";
+            const data = await JSON.parse(localStorage.getItem(key));
+            if (data) {
+                localStorage.removeItem(key);
+                return data;
+            }
+        });
+
+        if (cachedData) {
+            this.email = cachedData.email;
+            this.password = cachedData.password;
+        }
     }
 
     getEmailField() {
@@ -42,11 +59,13 @@ class LoginPage extends BasePage {
         return new Button($(this.submitBtnSelector), "Submit button");
     }
 
-    getErrorMsg() {
+    async getErrorMsg() {
+        await allure.addStep(`Retrieving Error message`);
         return $(this.errorMsgSelector);
     }
 
     async login(email = this.email, password = this.password) {
+        await allure.addStep(`Logging in with: '${email}' / '${password}'`);
         await this.getEmailField().setValue(email);
         await this.getPasswordField().setValue(password);
         await this.getSubmitButton().click();
