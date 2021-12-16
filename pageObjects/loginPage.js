@@ -32,9 +32,9 @@ class LoginPage extends BasePage {
     }
 
     async loadDataFromLocalStorage() {
-        const cachedData = await browser.execute(async () => {
+        const cachedData = await browser.execute(() => {
             const key = "regData";
-            const data = await JSON.parse(localStorage.getItem(key));
+            const data = JSON.parse(localStorage.getItem(key));
             if (data) {
                 localStorage.removeItem(key);
                 return data;
