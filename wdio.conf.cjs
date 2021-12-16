@@ -42,6 +42,12 @@ exports.config = {
             ],
             './test/specs/negativeCaseLogin.js',
             './test/specs/openSocialMediaPages.js'
+        ],
+        hw_17: [
+            [
+                './test/specs/apiPositiveCaseUserRegistration.js',
+                './test/specs/apiPositiveCaseLogin.js'
+            ]
         ]
     },
     // Patterns to exclude.

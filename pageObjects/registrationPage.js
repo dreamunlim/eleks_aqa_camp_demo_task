@@ -45,15 +45,8 @@ class RegistrationPage extends BasePage {
         }
 
         await browser.execute((data) => {
-            if (localStorage) {
-                const key = "regData";
-                const regData = {
-                    email: data.email,
-                    password: data.password
-                }
-                
-                localStorage.setItem(key, JSON.stringify(regData));
-            }
+            const key = "regData";
+            localStorage.setItem(key, JSON.stringify(data));
         }, dataToCache);
     }
 
