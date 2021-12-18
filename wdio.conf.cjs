@@ -48,6 +48,21 @@ exports.config = {
                 './test/specs/apiPositiveCaseUserRegistration.js',
                 './test/specs/apiPositiveCaseLogin.js'
             ]
+        ],
+        api: [
+            [
+                './test/specs/apiPositiveCaseUserRegistration.js',
+                './test/specs/apiPositiveCaseLogin.js'
+            ],
+            './test/specs/apiLeaveCustomerFeedback.js'
+        ],
+        ui: [
+            [
+                './test/specs/positiveCaseUserRegistration.js',
+                './test/specs/positiveCaseLogin.js'
+            ],
+            './test/specs/negativeCaseLogin.js',
+            './test/specs/openSocialMediaPages.js'
         ]
     },
     // Patterns to exclude.

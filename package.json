@@ -24,6 +24,8 @@
     "hw_15": "npx wdio run ./wdio.conf.cjs --suite hw_15",
     "hw_16": "npx wdio run ./wdio.conf.cjs --suite hw_16",
     "hw_17": "npx wdio run ./wdio.conf.cjs --suite hw_17",
+    "api": "npx wdio run ./wdio.conf.cjs --suite api",
+    "ui": "npx wdio run ./wdio.conf.cjs --suite ui",
     "allure": "./node_modules/.bin/allure generate allure-results -o allure-report --clean && allure open"
   }
 }
