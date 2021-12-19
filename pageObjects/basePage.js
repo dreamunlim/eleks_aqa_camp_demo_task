@@ -13,17 +13,6 @@ class BasePage {
         await browser.maximizeWindow();
         await browser.url(url);
         await this.waitForPageAvailable();
-
-        const welcomePopupButton = new Button($(this.welcomePopupButtonSelector), "Welcome Popup close button");
-        const cookiesPopupButton = new Button($(this.cookiesPopupButtonSelector), "Cookies Popup close button");
-
-        if(await welcomePopupButton.isDisplayed()) {
-            await this.closeWelcomePopup(welcomePopupButton);
-        }
-
-        if(await cookiesPopupButton.isDisplayed()) {
-            await this.closeCookiesPopup(cookiesPopupButton);
-        }
     }
 
     // assume from the element presence that the page has loaded
@@ -32,8 +21,23 @@ class BasePage {
         const timeoutMsg = `The page element has not loaded in ${timeout / 1000} sec`;
         const interval = 1000;
 
+        const welcomePopupButton = new Button($(this.welcomePopupButtonSelector), "Welcome Popup close button");
+        const cookiesPopupButton = new Button($(this.cookiesPopupButtonSelector), "Cookies Popup close button");
+
+        if (await welcomePopupButton.isDisplayed()) {
+            await this.closeWelcomePopup(welcomePopupButton);
+        }
+
+        if (await cookiesPopupButton.isDisplayed()) {
+            await this.closeCookiesPopup(cookiesPopupButton);
+        }
+
         await browser.waitUntil(
-            async () => { return !!this.getBaseElement().length }, // cast length to boolean
+            async () => {
+                return !(await cookiesPopupButton.isDisplayed()) &&
+                       !(await welcomePopupButton.isDisplayed()) &&
+                       !!this.getBaseElement().length // cast length to boolean
+            },
             {
                 timeout: timeout,
                 timeoutMsg: timeoutMsg,
@@ -47,7 +51,7 @@ class BasePage {
         let overlayedSpanSelector = 'span.mat-button-focus-overlay';
         let overlayedSpan = await welcomePopupButton.itself().$(overlayedSpanSelector);
         await browser.execute((span) => {
-            span.click();            
+            span.click();
         }, overlayedSpan);
     }
 
