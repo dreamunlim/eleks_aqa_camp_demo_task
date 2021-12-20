@@ -62,6 +62,7 @@ exports.config = {
                 './test/specs/positiveCaseLogin.js'
             ],
             './test/specs/negativeCaseLogin.js',
+            './test/specs/negativeCaseUserRegistration.js',
             './test/specs/openSocialMediaPages.js'
         ]
     },
@@ -97,7 +98,7 @@ exports.config = {
         // maxInstances can get overwritten per capability. So if you have an in-house Selenium
         // grid with only 5 firefox instances available you can make sure that not more than
         // 5 instances get started at a time.
-        maxInstances: 5,
+        maxInstances: 2,
         //
         browserName: 'chrome',
         acceptInsecureCerts: true
@@ -107,7 +108,7 @@ exports.config = {
         // excludeDriverLogs: ['bugreport', 'server'],
     },
     // {
-    //     maxInstances: 5,
+    //     maxInstances: 2,
     //     browserName: 'firefox',
     //     acceptInsecureCerts: true
     // }

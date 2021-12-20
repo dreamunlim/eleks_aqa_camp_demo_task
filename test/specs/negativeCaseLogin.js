@@ -1,6 +1,6 @@
 import loginPage from '../../pageObjects/loginPage.js';
 
-describe('LoginPage login', () => {
+describe('User login', () => {
     it('negative login', async () => {
         await loginPage.openPage();
         await loginPage.login(loginPage.fakeMail, loginPage.fakePassword);
