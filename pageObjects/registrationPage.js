@@ -9,7 +9,7 @@ class RegistrationPage extends BasePage {
     constructor() {
         super();
 
-        this.url = '#/register';
+        this.url = '/#/register';
         this.postRegistrationUrl = browser.config.baseUrl + loginPage.url;
 
         this.strLength = 5;
@@ -27,6 +27,20 @@ class RegistrationPage extends BasePage {
         this.dropdownAnswerSelector = '//mat-option/span[contains(text(),"Name of your favorite pet?")]';
 
         this.securityQuestionAnswer = "Potato";
+
+        this.errorMessagesSelectors = {
+            email: '//input[@id="emailControl"]/following::mat-error[1]',
+            password: '//input[@id="passwordControl"]/following::mat-error[1]',
+            repeatPassword: '//input[@id="repeatPasswordControl"]/following::mat-error[1]',
+            answer: '//input[@id="securityAnswerControl"]/following::mat-error[1]'
+        }
+
+        this.errorMessages = {
+            emailField: "Please provide an email address.",
+            passwordField: "Please provide a password.",
+            repeatPasswordField: "Please repeat your password.",
+            answerField: "Please provide an answer to your security question."
+        }
     }
 
     getBaseElement() {
@@ -45,15 +59,8 @@ class RegistrationPage extends BasePage {
         }
 
         await browser.execute((data) => {
-            if (localStorage) {
-                const key = "regData";
-                const regData = {
-                    email: data.email,
-                    password: data.password
-                }
-                
-                localStorage.setItem(key, JSON.stringify(regData));
-            }
+            const key = "regData";
+            localStorage.setItem(key, JSON.stringify(data));
         }, dataToCache);
     }
 
@@ -91,6 +98,13 @@ class RegistrationPage extends BasePage {
         await this.getDropdownField().select(dropdownAnswer);
     }
 
+    async getErrorMsgField(field) {
+        const logText = `Retrieving Error message for '${field}' field`;
+        console.log(logText);
+        await allure.addStep(logText);
+        return await $(this.errorMessagesSelectors[field]);
+    }
+
     async register(email = this.email, password = this.password) {
         await allure.addStep(`Registering with: '${email}' / '${password}'`);
         await this.getEmailField().setValue(this.email);
@@ -98,6 +112,16 @@ class RegistrationPage extends BasePage {
         await this.getRepeatPasswordField().setValue(this.password);
         await this.selectDropdownAnswer(this.dropdownAnswerSelector);
         await this.getAnswerField().setValue(this.securityQuestionAnswer);
+        await this.getRegisterButton().click();
+    }
+
+    async negativeRegister() {
+        await allure.addStep(`Registering with empty values in all fields`);
+        await this.getEmailField().click();
+        await this.getPasswordField().click();
+        await this.getRepeatPasswordField().click();
+        await this.selectDropdownAnswer(this.dropdownAnswerSelector);
+        await this.getAnswerField().click();
         await this.getRegisterButton().click();
     }
 }

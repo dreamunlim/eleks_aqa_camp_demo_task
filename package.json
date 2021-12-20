@@ -14,13 +14,18 @@
     "@wdio/selenium-standalone-service": "^7.16.6",
     "@wdio/spec-reporter": "^7.16.9",
     "allure-commandline": "^2.13.8",
-    "randomstring": "^1.2.1"
+    "chai": "^4.3.4",
+    "randomstring": "^1.2.1",
+    "superagent": "^6.1.0"
   },
   "scripts": {
     "example": "npx wdio run ./wdio.conf.cjs --spec example.e2e.js",
     "hw_14": "npx wdio run ./wdio.conf.cjs --suite hw_14",
     "hw_15": "npx wdio run ./wdio.conf.cjs --suite hw_15",
     "hw_16": "npx wdio run ./wdio.conf.cjs --suite hw_16",
+    "hw_17": "npx wdio run ./wdio.conf.cjs --suite hw_17",
+    "api": "npx wdio run ./wdio.conf.cjs --suite api",
+    "ui": "npx wdio run ./wdio.conf.cjs --suite ui",
     "allure": "./node_modules/.bin/allure generate allure-results -o allure-report --clean && allure open"
   }
 }
